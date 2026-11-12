@@ -148,3 +148,23 @@ export function filtersToQuery(f: SearchFilters, overrides: Partial<SearchFilter
   if (m.page && m.page > 1) q.set("page", String(m.page));
   return q.toString();
 }
+
+const passwordRule = z
+  .string()
+  .min(10, "Le mot de passe doit contenir au moins 10 caractères.")
+  .max(72)
+  .regex(/[A-Za-z]/, "Le mot de passe doit contenir une lettre.")
+  .regex(/[0-9]/, "Le mot de passe doit contenir un chiffre.");
+
+export const emailOnlySchema = z.object({
+  email: z.string().trim().toLowerCase().email("Adresse e-mail invalide."),
+});
+
+export const newPasswordSchema = z
+  .object({ password: passwordRule, confirm: z.string() })
+  .refine((d) => d.password === d.confirm, "Les deux mots de passe ne sont pas identiques.");
+
+export const profileSchema = z.object({
+  display_name: z.string().trim().min(2, "Nom trop court.").max(80),
+  phone,
+});

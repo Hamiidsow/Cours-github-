@@ -6,7 +6,7 @@ import { isSupabaseConfigured, SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase
 // des droits est refait dans chaque page et, surtout, par la base.)
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isPrivate = pathname.startsWith("/espace") || pathname.startsWith("/admin");
+  const isPrivate = pathname.startsWith("/espace") || pathname.startsWith("/admin") || pathname === "/nouveau-mot-de-passe";
 
   if (!isSupabaseConfigured()) {
     if (isPrivate) return NextResponse.redirect(new URL("/connexion", request.url));

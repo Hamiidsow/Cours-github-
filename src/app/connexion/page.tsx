@@ -25,7 +25,10 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <input id="password" name="password" type="password" autoComplete="current-password" required className="input" />
         </div>
       </ActionForm>
-      <p className="mt-4 text-center text-sm text-muted">
+      <p className="mt-4 text-center text-sm">
+        <Link href="/mot-de-passe-oublie" className="font-semibold text-brand-700 underline">Mot de passe oublié ?</Link>
+      </p>
+      <p className="mt-2 text-center text-sm text-muted">
         {t.auth.noAccount} <Link href="/inscription" className="font-semibold text-brand-700 underline">{t.nav.signup}</Link>
       </p>
     </div>

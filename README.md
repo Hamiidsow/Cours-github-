@@ -52,5 +52,5 @@ supabase/tests      Tests de sécurité de la base
 
 ## Ce qui n'est pas encore vérifié
 
-- Aucun projet Supabase n'existe encore : le parcours complet (inscription → publication → validation → contact) n'a **pas** été exécuté contre un vrai backend. Les règles de la base ont été testées sur PostgreSQL local avec une imitation minimale de Supabase ; l'interface a été testée en mode démonstration.
+- Aucun projet Supabase n'est encore relié : le parcours complet (inscription → publication → validation → contact) n'a **pas** été exécuté contre un vrai backend. Les règles de la base ont été testées sur PostgreSQL local avec une imitation minimale de Supabase ; l'interface a été testée en mode démonstration.
 - Les pages légales sont des modèles à faire relire par un juriste.

@@ -16,6 +16,7 @@ export default async function SpaceLayout({ children }: { children: React.ReactN
     { href: "/espace/visites", label: t.dash.visits },
     { href: "/espace/favoris", label: t.dash.favorites },
     ...(owner ? [{ href: "/espace/verification", label: t.dash.verification }] : []),
+    { href: "/espace/profil", label: "Mon profil" },
   ];
   return (
     <div className="container-page py-6">

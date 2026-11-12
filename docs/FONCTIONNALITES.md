@@ -6,7 +6,7 @@ Légende — **Fait** : écrit et testé automatiquement ou à l'écran. **Écri
 
 | Fonctionnalité | État |
 | --- | --- |
-| Schéma de base, politiques RLS, triggers, fonctions RPC, buckets | Fait (51 règles vérifiées par `npm run test:db`) |
+| Schéma de base, politiques RLS, triggers, fonctions RPC, buckets | Fait (54 règles vérifiées par `npm run test:db`) |
 | Accueil avec recherche, dernières annonces, parcours par type | Fait (mode démonstration) |
 | Résultats avec filtres : ville, quartier, type, location/vente, prix, chambres, meublé, équipements, tri, pagination | Fait (mode démonstration) ; requêtes Supabase écrites, à valider |
 | Fiche détaillée : galerie, prix en FCFA, charges, caution, avance, conditions, équipements | Fait (mode démonstration) |
@@ -15,6 +15,7 @@ Légende — **Fait** : écrit et testé automatiquement ou à l'écran. **Écri
 | Données fictives étiquetées « Annonce fictive », jamais référencées | Fait |
 | Pages légales (modèles) et page d'aide / sécurité | Fait |
 | Inscription, connexion, déconnexion, confirmation par e-mail | Écrit, à valider |
+| Mot de passe oublié, changement de mot de passe, modification du profil (nom, téléphone) | Écrit, à valider |
 | Publication d'annonce avec photos compressées, brouillon, soumission | Écrit, à valider |
 | Gestion des annonces : modifier, archiver, supprimer, disponibilité | Écrit, à valider |
 | Contact direct : numéro révélé aux connectés, appel, WhatsApp | Écrit, à valider (règles de base testées) |
@@ -32,7 +33,7 @@ Légende — **Fait** : écrit et testé automatiquement ou à l'écran. **Écri
 | Notifications | Aucun e-mail ni SMS n'est envoyé : nouvelle demande de visite, décision de modération, alertes sur recherche enregistrée |
 | Alertes | Les critères sont enregistrés et relançables à la main ; l'envoi automatique n'existe pas |
 | Connexion par téléphone (SMS) | Souhaitable au Sénégal ; service payant, non activé |
-| Mot de passe oublié, modification du profil, suppression du compte | Non faits |
+| Suppression du compte par l'utilisateur | Non faite |
 | Wolof et anglais | Architecture prête, traductions et sélecteur de langue à faire |
 | Carte et géolocalisation | Non faits |
 | Messagerie interne | Non faite (contact par téléphone / WhatsApp) |

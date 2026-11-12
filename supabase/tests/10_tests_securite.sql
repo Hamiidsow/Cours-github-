@@ -38,7 +38,15 @@ select test.fails($$insert into listings (property_id, owner_id, title, descript
   'un propriétaire ne peut pas créer une annonce directement publiée');
 insert into listings (id, property_id, owner_id, title, description, price_fcfa, contact_phone, status, is_demo)
   values ('20000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', auth.uid(),
-          'Appartement test Mermoz', 'Description suffisamment longue pour passer la validation.', 250000, '+221770000001', 'en_attente', true);
+          'Appartement test Mermoz', 'Description suffisamment longue pour passer la validation.', 250000, '+221770000001', 'brouillon', true);
+select test.fails($$update listings set status = 'en_attente' where id = '20000000-0000-0000-0000-000000000001'$$,
+  'une annonce sans photo ne peut pas être soumise à validation');
+insert into listing_images (listing_id, owner_id, storage_path)
+  values ('20000000-0000-0000-0000-000000000001', auth.uid(), auth.uid()::text || '/20000000-0000-0000-0000-000000000001/a.jpg');
+update listings set status = 'en_attente' where id = '20000000-0000-0000-0000-000000000001';
+select test.fails($$insert into listing_images (listing_id, owner_id, storage_path)
+  select '20000000-0000-0000-0000-000000000001', auth.uid(), auth.uid()::text || '/x/' || g || '.jpg' from generate_series(1, 8) g$$,
+  'pas plus de 8 photos par annonce');
 select test.ok((select is_demo from listings where id = '20000000-0000-0000-0000-000000000001') = false,
   'le drapeau is_demo ne peut pas être posé par un utilisateur');
 select test.fails($$update listings set status = 'publiee' where id = '20000000-0000-0000-0000-000000000001'$$,
@@ -102,6 +110,9 @@ select test.ok(test.affected($$update listings set price_fcfa = 1 where id = '20
   'un tiers ne peut pas modifier l''annonce d''un autre');
 select test.ok(test.affected($$delete from listings where id = '20000000-0000-0000-0000-000000000001'$$) = 0,
   'un tiers ne peut pas supprimer l''annonce d''un autre');
+select test.fails($$insert into listing_images (listing_id, owner_id, storage_path)
+  values ('20000000-0000-0000-0000-000000000001', auth.uid(), auth.uid()::text || '/intrus.jpg')$$,
+  'impossible d''ajouter une photo à l''annonce d''un autre');
 select test.fails($$insert into listings (property_id, owner_id, title, description, price_fcfa, contact_phone)
   values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'Annonce greffée sur le bien', 'Description suffisamment longue pour passer la validation.', 1000, '+221770000009')$$,
   'impossible de créer une annonce sur le bien d''un autre');

@@ -28,7 +28,7 @@ Supabase
 
 ## Base de données
 
-Migration : `supabase/migrations/0001_schema_initial.sql`.
+Migrations : `supabase/migrations/0001_schema_initial.sql` (schéma) et `0002_regles_photos.sql` (au moins une photo pour soumettre, 8 photos maximum).
 
 | Table | Rôle | Qui peut lire |
 | --- | --- | --- |
@@ -96,4 +96,4 @@ Le backend est prêt à être partagé :
 - lecture des annonces via `listings_public`, actions via les mêmes tables et fonctions RPC ;
 - réutilisables tels quels : `src/lib/constants.ts`, `types.ts`, `validation.ts`, `format.ts`, `i18n/`.
 
-À prévoir à ce moment-là : sortir ces fichiers dans un paquet partagé et déplacer vers la base les deux contrôles encore faits par le serveur web (au moins une photo avant soumission, maximum de 8 photos).
+À prévoir à ce moment-là : sortir ces fichiers dans un paquet partagé.
