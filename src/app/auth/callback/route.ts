@@ -1,0 +1,17 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { safeNext } from "@/lib/auth";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/server";
+
+// Retour du lien de confirmation reçu par e-mail : échange le code contre
+// une session, puis redirige vers l'espace personnel.
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get("code");
+  if (code && isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) return NextResponse.redirect(`${origin}${safeNext(searchParams.get("suite"))}`);
+  }
+  return NextResponse.redirect(`${origin}/connexion?erreur=lien`);
+}

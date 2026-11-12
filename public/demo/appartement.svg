@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration fictive">
+<rect width="800" height="600" fill="#e6f0ea"/><rect y="430" width="800" height="170" fill="#cfe0d6"/>
+<rect x="250" y="120" width="300" height="310" fill="#0f4a37"/><g fill="#f4ebd0"><rect x="280" y="150" width="60" height="50"/><rect x="370" y="150" width="60" height="50"/><rect x="460" y="150" width="60" height="50"/><rect x="280" y="230" width="60" height="50"/><rect x="370" y="230" width="60" height="50"/><rect x="460" y="230" width="60" height="50"/><rect x="280" y="310" width="60" height="50"/><rect x="460" y="310" width="60" height="50"/></g><rect x="375" y="340" width="50" height="90" fill="#c19a2e"/>
+<text x="400" y="560" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#0b3d2e" opacity=".75">Illustration — annonce fictive</text></svg>
