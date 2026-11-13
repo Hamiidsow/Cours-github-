@@ -28,7 +28,10 @@ export function whatsappContactUrl(phone: string, text: string): string {
 }
 
 export function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  // Sur Vercel, l'adresse de production est fournie automatiquement.
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  const url = process.env.NEXT_PUBLIC_SITE_URL || (vercel ? `https://${vercel}` : "http://localhost:3000");
+  return url.replace(/\/$/, "");
 }
 
 // Chemin de stockage -> URL affichable. Les chemins commençant par « / » sont
