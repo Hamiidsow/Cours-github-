@@ -173,5 +173,13 @@ select test.fails($$insert into listings (property_id, owner_id, title, descript
   'pas plus de 10 annonces créées par jour et par compte');
 
 reset role;
+select set_config('request.jwt.claims', '', false);
+-- ---------- Suppression de comptes ----------
+delete from auth.users where id = '00000000-0000-0000-0000-00000000000a';
+select test.ok((select count(*) from owner_verifications where reviewed_by is null and status = 'verifie') = 1,
+  'supprimer un administrateur conserve ses décisions (référence vidée)');
+delete from auth.users;
+select test.ok((select count(*) from profiles) + (select count(*) from listings) + (select count(*) from visit_requests) = 0,
+  'supprimer les comptes supprime leurs données en cascade');
 \echo
 \echo 'TOUS LES TESTS DE SECURITE SONT PASSES'
