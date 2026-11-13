@@ -1,6 +1,6 @@
 # Fonctionnalités
 
-Légende — **Fait** : écrit et testé automatiquement ou à l'écran. **Écrit, à valider** : code complet, mais pas encore exécuté contre un vrai projet Supabase.
+Légende — **Fait** : écrit et testé. **Testé sur Supabase** : parcours exécuté dans un navigateur automatisé contre le projet Supabase réel (comptes fictifs). **Écrit, à valider** : code complet, pas encore exécuté de bout en bout.
 
 ## Réalisé
 
@@ -8,28 +8,30 @@ Légende — **Fait** : écrit et testé automatiquement ou à l'écran. **Écri
 | --- | --- |
 | Schéma de base, politiques RLS, triggers, fonctions RPC, buckets | Fait (54 règles vérifiées par `npm run test:db`) |
 | Accueil avec recherche, dernières annonces, parcours par type | Fait (mode démonstration) |
-| Résultats avec filtres : ville, quartier, type, location/vente, prix, chambres, meublé, équipements, tri, pagination | Fait (mode démonstration) ; requêtes Supabase écrites, à valider |
+| Résultats avec filtres : ville, quartier, type, location/vente, prix, chambres, meublé, équipements, tri, pagination | Fait (mode démonstration) ; filtres ville, type, prix et équipements testés sur Supabase |
 | Fiche détaillée : galerie, prix en FCFA, charges, caution, avance, conditions, équipements | Fait (mode démonstration) |
 | Partage WhatsApp d'une annonce | Fait |
 | SEO : titres et descriptions, sitemap, robots, données structurées, Open Graph | Fait |
 | Données fictives étiquetées « Annonce fictive », jamais référencées | Fait |
 | Pages légales (modèles) et page d'aide / sécurité | Fait |
-| Inscription, connexion, déconnexion, confirmation par e-mail | Écrit, à valider |
-| Mot de passe oublié, changement de mot de passe, modification du profil (nom, téléphone) | Écrit, à valider |
-| Publication d'annonce avec photos compressées, brouillon, soumission | Écrit, à valider |
-| Gestion des annonces : modifier, archiver, supprimer, disponibilité | Écrit, à valider |
-| Contact direct : numéro révélé aux connectés, appel, WhatsApp | Écrit, à valider (règles de base testées) |
-| Favoris et recherches enregistrées | Écrit, à valider |
-| Demandes de visite (envoi, acceptation, refus, annulation) | Écrit, à valider (règles de base testées) |
-| Signalement d'annonce | Écrit, à valider (règles de base testées) |
-| Dépôt d'un dossier de vérification (bucket privé) | Écrit, à valider (règles de base testées) |
-| Administration : validation des annonces, contrôle des dossiers, signalements, suspension de comptes, journal | Écrit, à valider (règles de base testées) |
+| Inscription, connexion, déconnexion | Testé sur Supabase (confirmation par e-mail désactivée pendant le test : le lien de confirmation reste à valider) |
+| Modification du profil (nom, téléphone) | Testé sur Supabase |
+| Mot de passe oublié, changement de mot de passe | Écrit, à valider (dépend de l'envoi d'e-mails) |
+| Publication d'annonce avec photos compressées, brouillon, soumission | Testé sur Supabase |
+| Gestion des annonces : modification (renvoi en validation) | Testé sur Supabase |
+| Gestion des annonces : archiver, supprimer, disponibilité, retrait de photo | Écrit, à valider |
+| Contact direct : numéro révélé aux connectés, appel, WhatsApp | Testé sur Supabase |
+| Favoris et recherches enregistrées | Testé sur Supabase |
+| Demandes de visite (envoi, acceptation, refus, annulation) | Testé sur Supabase |
+| Signalement d'annonce | Testé sur Supabase |
+| Dépôt d'un dossier de vérification (bucket privé) | Testé sur Supabase |
+| Administration : validation des annonces, contrôle des dossiers, signalements, suspension de comptes, journal | Testé sur Supabase |
 
 ## Reste à développer
 
 | Sujet | Détail |
 | --- | --- |
-| Liaison Supabase | Créer le projet, appliquer la migration, dérouler le parcours de test manuel |
+| E-mails | Configurer un service d'envoi (SMTP), puis valider le lien de confirmation et « mot de passe oublié » |
 | Notifications | Aucun e-mail ni SMS n'est envoyé : nouvelle demande de visite, décision de modération, alertes sur recherche enregistrée |
 | Alertes | Les critères sont enregistrés et relançables à la main ; l'envoi automatique n'existe pas |
 | Connexion par téléphone (SMS) | Souhaitable au Sénégal ; service payant, non activé |

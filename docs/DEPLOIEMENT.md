@@ -3,7 +3,7 @@
 ## 1. Créer le projet Supabase
 
 1. Sur supabase.com, créer un projet (région conseillée : Europe de l'Ouest, la plus proche du Sénégal). L'offre gratuite suffit pour démarrer ; elle met le projet en pause après une semaine sans activité et ne conserve pas de sauvegardes téléchargeables.
-2. **SQL Editor** : coller et exécuter, dans l'ordre, le contenu de `supabase/migrations/0001_schema_initial.sql` puis de `0002_regles_photos.sql`.
+2. **SQL Editor** : coller et exécuter `supabase/schema-complet.sql` (les deux migrations réunies) — ou, dans l'ordre, le contenu de `supabase/migrations/0001_schema_initial.sql` puis de `0002_regles_photos.sql`.
    Ne pas exécuter les fichiers de `supabase/tests/` : ils sont réservés aux tests locaux.
 3. **Authentication → URL Configuration** : renseigner l'adresse du site dans *Site URL* et ajouter `https://VOTRE-DOMAINE/auth/callback` dans *Redirect URLs* (plus `http://localhost:3000/auth/callback` pour le développement).
 4. **Authentication → Providers → Email** : laisser la confirmation par e-mail activée. Longueur minimale du mot de passe : 10.

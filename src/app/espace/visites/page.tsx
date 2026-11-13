@@ -13,7 +13,7 @@ export default async function VisitsPage() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("visit_requests")
-    .select("id, listing_id, requester_id, owner_id, preferred_date, message, requester_phone, status, created_at, listings(title)")
+    .select("id, listing_id, requester_id, owner_id, preferred_date, message, requester_phone, status, created_at, listings!visit_requests_listing_id_fkey(title)")
     .order("created_at", { ascending: false })
     .limit(100);
   const all = (data ?? []) as unknown as VisitRequest[];

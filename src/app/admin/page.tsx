@@ -16,6 +16,15 @@ export const dynamic = "force-dynamic";
 const TABS = ["annonces", "verifications", "signalements", "comptes", "journal"] as const;
 type Tab = (typeof TABS)[number];
 
+// Une requête en échec ne doit jamais ressembler à une file vide.
+function QueryError() {
+  return (
+    <p role="alert" className="rounded-lg bg-red-50 p-4 text-red-800">
+      Impossible de charger ces données. Rechargez la page ; si le problème persiste, consultez les journaux.
+    </p>
+  );
+}
+
 function NoteField({ id }: { id: string }) {
   const t = getDictionary();
   return (
@@ -73,9 +82,9 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 async function PendingListings() {
   const t = getDictionary();
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("listings")
-    .select("id, title, description, transaction, price_fcfa, charges_fcfa, deposit_months, advance_months, conditions, contact_phone, created_at, owner_id, properties(type, city, neighborhood, address_private, surface_m2, bedrooms), listing_images(storage_path, position), profiles(display_name, role, verification_status)")
+    .select("id, title, description, transaction, price_fcfa, charges_fcfa, deposit_months, advance_months, conditions, contact_phone, created_at, owner_id, properties(type, city, neighborhood, address_private, surface_m2, bedrooms), listing_images(storage_path, position), profiles!listings_owner_id_fkey(display_name, role, verification_status)")
     .eq("status", "en_attente")
     .order("created_at", { ascending: true })
     .limit(30);
@@ -87,6 +96,7 @@ async function PendingListings() {
     listing_images: { storage_path: string; position: number }[];
     profiles: { display_name: string; role: Role; verification_status: string } | null;
   };
+  if (error) return <QueryError />;
   const rows = (data ?? []) as unknown as Row[];
   if (rows.length === 0) return <p className="card p-6 text-muted">{t.admin.empty}</p>;
   return (
@@ -130,13 +140,14 @@ async function PendingListings() {
 async function PendingVerifications() {
   const t = getDictionary();
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("owner_verifications")
     .select("id, user_id, document_type, document_path, created_at, profiles!owner_verifications_user_id_fkey(display_name, role)")
     .eq("status", "en_attente")
     .order("created_at", { ascending: true })
     .limit(30);
   type Row = { id: string; user_id: string; document_type: keyof typeof t.documentTypes; document_path: string; created_at: string; profiles: { display_name: string; role: Role } | null };
+  if (error) return <QueryError />;
   const rows = (data ?? []) as unknown as Row[];
   if (rows.length === 0) return <p className="card p-6 text-muted">{t.admin.empty}</p>;
   // Liens temporaires (10 minutes) vers le bucket privé, générés pour l'admin.
@@ -170,14 +181,15 @@ async function PendingVerifications() {
 async function OpenReports() {
   const t = getDictionary();
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("reports")
-    .select("id, reason, details, created_at, listing_id, listings(title, status, owner_id), reporter:profiles!reports_reporter_id_fkey(display_name)")
+    .select("id, reason, details, created_at, listing_id, listings!reports_listing_id_fkey(title, status, owner_id), reporter:profiles!reports_reporter_id_fkey(display_name)")
     .eq("status", "ouvert")
     .order("created_at", { ascending: true })
     .limit(30);
   type Row = { id: string; reason: keyof typeof t.reportReasons; details: string | null; created_at: string; listing_id: string;
     listings: { title: string; status: ListingStatus; owner_id: string } | null; reporter: { display_name: string } | null };
+  if (error) return <QueryError />;
   const rows = (data ?? []) as unknown as Row[];
   if (rows.length === 0) return <p className="card p-6 text-muted">{t.admin.empty}</p>;
   return (
@@ -223,7 +235,8 @@ async function Accounts({ q }: { q?: string }) {
     .order("created_at", { ascending: false })
     .limit(50);
   if (q?.trim()) query = query.ilike("display_name", `%${escapeLike(q.trim().slice(0, 80))}%`);
-  const { data } = await query;
+  const { data, error } = await query;
+  if (error) return <QueryError />;
   return (
     <>
       <form method="get" action="/admin" className="flex max-w-md gap-2">
@@ -265,12 +278,13 @@ async function Accounts({ q }: { q?: string }) {
 async function Logs() {
   const t = getDictionary();
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("moderation_logs")
-    .select("id, action, target_type, target_id, note, created_at, profiles(display_name)")
+    .select("id, action, target_type, target_id, note, created_at, profiles!moderation_logs_actor_id_fkey(display_name)")
     .order("created_at", { ascending: false })
     .limit(100);
   type Row = { id: number; action: string; target_type: string; target_id: string; note: string | null; created_at: string; profiles: { display_name: string } | null };
+  if (error) return <QueryError />;
   const rows = (data ?? []) as unknown as Row[];
   if (rows.length === 0) return <p className="card p-6 text-muted">{t.admin.empty}</p>;
   return (

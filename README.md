@@ -2,7 +2,7 @@
 
 Plateforme immobilière pour le Sénégal : les propriétaires publient directement leurs biens, les locataires les recherchent et contactent le propriétaire **sans commission d'intermédiation**.
 
-> **État : MVP en construction.** L'application et la base sont écrites et testées séparément. La liaison avec un vrai projet Supabase reste à faire (voir « Ce qui n'est pas encore vérifié »).
+> **État : MVP fonctionnel, non encore mis en ligne.** Voir « État des vérifications » en bas de page.
 
 | Document | Contenu |
 | --- | --- |
@@ -50,7 +50,8 @@ supabase/migrations Schéma, politiques RLS, fonctions, stockage
 supabase/tests      Tests de sécurité de la base
 ```
 
-## Ce qui n'est pas encore vérifié
+## État des vérifications
 
-- Aucun projet Supabase n'est encore relié : le parcours complet (inscription → publication → validation → contact) n'a **pas** été exécuté contre un vrai backend. Les règles de la base ont été testées sur PostgreSQL local avec une imitation minimale de Supabase ; l'interface a été testée en mode démonstration.
+- Le parcours complet a été exécuté dans un navigateur automatisé contre le projet Supabase réel, avec des comptes fictifs : inscription, publication avec photo, validation par l'admin, recherche, contact, favoris, visite, signalement, vérification du propriétaire, renvoi en validation après modification, suspension, journal.
+- Pas encore vérifié : les e-mails (lien de confirmation, mot de passe oublié), l'archivage, la suppression et le changement de disponibilité d'une annonce, le retrait d'une photo.
 - Les pages légales sont des modèles à faire relire par un juriste.
