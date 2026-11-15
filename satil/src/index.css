@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Identité SATIL : bleu nuit (confiance), vert émeraude (commerce, croissance), or (points clés). */
+@theme {
+  --color-navy-50: #f1f5fb;
+  --color-navy-100: #dfe8f5;
+  --color-navy-200: #b9cbe6;
+  --color-navy-300: #8aa6cf;
+  --color-navy-400: #5a7fb4;
+  --color-navy-500: #3a5f96;
+  --color-navy-600: #284878;
+  --color-navy-700: #1b355c;
+  --color-navy-800: #122746;
+  --color-navy-900: #0b1f3a;
+  --color-navy-950: #071428;
+  --color-brand-50: #ecfdf7;
+  --color-brand-100: #d0f9ea;
+  --color-brand-200: #a4f1d6;
+  --color-brand-300: #6ae3bd;
+  --color-brand-400: #2fcc9f;
+  --color-brand-500: #0fb187;
+  --color-brand-600: #058f6e;
+  --color-brand-700: #06725a;
+  --color-brand-800: #095a49;
+  --color-brand-900: #094a3d;
+  --color-gold-50: #fffaeb;
+  --color-gold-100: #fef0c3;
+  --color-gold-200: #fde08a;
+  --color-gold-300: #fbc94a;
+  --color-gold-400: #f8b01f;
+  --color-gold-500: #e8930a;
+  --color-gold-600: #c26f06;
+  --color-gold-700: #9a4f09;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --shadow-card: 0 1px 2px rgb(11 31 58 / 0.05), 0 4px 16px -4px rgb(11 31 58 / 0.08);
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body { background: #f4f6fa; color: #172033; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--color-brand-500); outline-offset: 2px; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Bandeau des grandes lignes : filet coloré à gauche */
+.keyline { position: relative; }
+.keyline::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 4px 0 0 4px; background: var(--kl, var(--color-brand-500)); }
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: rgb(148 163 184 / 0.5) transparent; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  main { padding: 0 !important; margin: 0 !important; }
+  .print-area { box-shadow: none !important; border: 0 !important; }
+  .print-area table { font-size: 10px; }
+  .print-scroll { overflow: visible !important; max-height: none !important; }
+  @page { size: A4 landscape; margin: 12mm; }
+}
