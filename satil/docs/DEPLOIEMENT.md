@@ -1,5 +1,12 @@
 # Déploiement
 
+## 0. Projet existant
+
+Le projet Supabase **satil** (référence `fpzvzynxaovzinbirimw`, région Paris `eu-west-3`) existe déjà : les trois
+migrations y sont appliquées. Adresse : `https://fpzvzynxaovzinbirimw.supabase.co`. La clé publique se lit dans
+*Project Settings → API*. Il reste à faire les étapes 3 et 4 ci-dessous (adresse du site, réglages d'e-mail) une fois
+le site mis en ligne. La section 1 ne sert que pour recréer une base ailleurs.
+
 ## 1. Créer la base (Supabase)
 
 1. Créer un projet sur supabase.com (région conseillée : `eu-west-3`, Paris — la plus proche de l'Afrique de l'Ouest).

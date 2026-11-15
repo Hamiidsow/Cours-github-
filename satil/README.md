@@ -3,8 +3,8 @@
 Plateforme B2B multilingue (français, 简体中文, English) pour étudier les marchés africains, sourcer en Chine,
 comparer les pays d'implantation et calculer la rentabilité d'une importation.
 
-> **État : V1 (MVP) fonctionnelle.** Vérifiée dans un navigateur automatisé en *mode local* et sur un PostgreSQL local
-> pour la sécurité. **Pas encore branchée sur un projet Supabase réel ni mise en ligne** — voir « État des vérifications ».
+> **État : V1 (MVP) fonctionnelle, branchée sur un projet Supabase réel, pas encore mise en ligne.**
+> Voir « État des vérifications ».
 
 | Document | Contenu |
 | --- | --- |
@@ -70,11 +70,15 @@ supabase/tests/         Tests de sécurité de la base
 
 ## État des vérifications
 
-- **Vérifié** (navigateur automatisé, mode local) : création d'organisation, CRUD, refus de doublon, historique,
-  validation « vérifié ⇒ source obligatoire », import CSV avec rapport (valides / doublons / erreurs), exports CSV et
-  Excel, chargement du jeu DEMO, tableau de bord, comparateur de pays, comparateur de devis, simulateur avec reprise des
-  données de la base, enregistrement, journal d'audit, bascule FR / ZH / EN, persistance après rechargement, affichage mobile.
-- **Vérifié** (PostgreSQL 16 local) : les 3 migrations s'appliquent ; 35 tests d'isolation, de rôles et d'audit passent.
-- **Pas encore vérifié** : l'application contre un vrai projet Supabase (connexion, inscription par e-mail, gestion des
-  membres), l'import de fichiers `.xlsx`, l'installation PWA sur téléphone, l'impression PDF sur papier.
+- **Vérifié contre le projet Supabase réel** (navigateur automatisé, comptes d'essai) : refus d'un mauvais mot de passe,
+  connexion, création d'organisation avec ses 9 pays, création et modification d'un produit, historique, ajout d'un
+  membre analyste, chargement du jeu DEMO, comparateur de pays, simulation enregistrée, journal d'audit, session
+  conservée après rechargement. Avec le compte analyste : pas de bouton d'ajout de fournisseur ni de suppression, journal
+  inaccessible ; par appel direct à l'API : création de fournisseur refusée (403), suppression sans effet, journal vide ;
+  sans connexion : accès refusé (401).
+- **Vérifié en mode local** : refus de doublon, validation « vérifié ⇒ source obligatoire », import CSV avec rapport
+  (valides / doublons / erreurs), exports CSV et Excel, comparateur de devis, bascule FR / ZH / EN, affichage mobile.
+- **Vérifié sur PostgreSQL 16 local** : les 3 migrations s'appliquent ; 35 tests d'isolation, de rôles et d'audit passent.
+- **Pas encore vérifié** : l'inscription par e-mail (lien de confirmation), l'isolation par pays vue depuis l'interface
+  (testée en base seulement), l'import de fichiers `.xlsx`, l'installation PWA sur téléphone, l'impression PDF.
 - Les traductions chinoises et anglaises sont à faire relire par un locuteur natif du métier.

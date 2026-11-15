@@ -184,6 +184,7 @@ function FormDialog({ res, row, rows, refs, onClose }: { res: Resource; row: Row
       else if (f.key === "verification_status" && res.sourced) init[f.key] = "non_verifie";
       else if (f.key === "collected_at") init[f.key] = today();
       else if (f.type === "bool") init[f.key] = false;
+      else if (f.def) init[f.key] = f.def;
     }
     return init;
   });
@@ -217,7 +218,9 @@ function FormDialog({ res, row, rows, refs, onClose }: { res: Resource; row: Row
     setErrors(errs);
     if (Object.keys(errs).length) return;
     try {
-      await save.mutateAsync({ id: row?.id, values: out });
+      // À la création, un champ laissé vide n'est pas envoyé : la valeur par défaut de la base s'applique.
+      const values = row ? out : Object.fromEntries(Object.entries(out).filter(([, x]) => x !== null));
+      await save.mutateAsync({ id: row?.id, values });
       toast.success(t("common.saved"));
       onClose();
     } catch (err) { setErrors({ _form: (err as Error).message }); }

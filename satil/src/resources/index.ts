@@ -16,6 +16,7 @@ export interface Field {
   money?: string;      // nom de la colonne devise associée
   byCountry?: boolean; // liste de référence filtrée par le pays choisi
   prov?: boolean;      // champ de provenance
+  def?: string;        // valeur initiale à la création
 }
 export interface Resource {
   table: string;
@@ -88,7 +89,7 @@ export const RESOURCES: Record<string, Resource> = {
   ports: {
     table: "ports", path: "ports", group: "reference", dedupe: ["country_id", "name"],
     fields: [ref("country_id", "countries", R), ref("city_id", "cities", { byCountry: true, list: true }), t("name", R), t("unlocode", L),
-      sel("port_type", ["maritime", "sec", "aeroport"], L), area("notes")],
+      sel("port_type", ["maritime", "sec", "aeroport"], { ...R, def: "maritime" }), area("notes")],
   },
   product_categories: {
     table: "product_categories", path: "categories", group: "reference", dedupe: ["name_fr"],
@@ -101,13 +102,13 @@ export const RESOURCES: Record<string, Resource> = {
   products: {
     table: "products", path: "produits", group: "reference", dedupe: ["sku"],
     fields: [t("sku", L), t("name_fr", R), t("name_en"), t("name_zh", L), ref("category_id", "product_categories", L), ref("hs_code_id", "hs_codes", L),
-      t("unit"), num("unit_weight_kg"), num("unit_cbm"), sel("status", ["etude", "retenu", "ecarte"], L), area("description")],
+      t("unit", { required: true, def: "pièce" }), num("unit_weight_kg"), num("unit_cbm"), sel("status", ["etude", "retenu", "ecarte"], { ...R, def: "etude" }), area("description")],
   },
   suppliers: {
     table: "suppliers", path: "fournisseurs", group: "sourcing", dedupe: ["name_en"],
-    fields: [t("name_en", R), t("name_zh", L), sel("supplier_type", ["usine", "trading", "grossiste", "agent"], L), t("city", L), t("province", L),
-      sel("pipeline_stage", ["prospection", "verification", "echantillon", "negociation", "commande", "inspection", "expedition", "ecarte"], L),
-      sel("verification_status", ["non_verifie", "en_cours", "verifie", "rejete"], L), date("verified_on"),
+    fields: [t("name_en", R), t("name_zh", L), sel("supplier_type", ["usine", "trading", "grossiste", "agent"], { ...R, def: "usine" }), t("city", L), t("province", L),
+      sel("pipeline_stage", ["prospection", "verification", "echantillon", "negociation", "commande", "inspection", "expedition", "ecarte"], { ...R, def: "prospection" }),
+      sel("verification_status", ["non_verifie", "en_cours", "verifie", "rejete"], { ...R, def: "non_verifie" }), date("verified_on"),
       t("contact_name"), t("contact_email"), t("contact_phone"), t("wechat"), t("website", { type: "url" }),
       t("business_license"), t("certifications"), t("categories"), t("capacity"), area("notes")],
   },
@@ -116,12 +117,12 @@ export const RESOURCES: Record<string, Resource> = {
     fields: [ref("supplier_id", "suppliers", R), ref("product_id", "products", R), date("quote_date", R), date("valid_until"),
       sel("incoterm", INCOTERMS, { raw: true, required: true, list: true }), t("incoterm_place"), num("unit_price", { required: true, list: true, money: "currency" }),
       cur("currency", { required: true }), num("moq", L), num("lead_time_days", L), bool("sample_available"), num("sample_cost"), t("payment_terms"),
-      sel("status", ["recu", "retenu", "rejete", "expire"], L), area("notes")],
+      sel("status", ["recu", "retenu", "rejete", "expire"], { ...R, def: "recu" }), area("notes")],
   },
   data_sources: {
     table: "data_sources", path: "sources", group: "market", dedupe: ["name"],
     fields: [t("name", R), t("publisher", L),
-      sel("source_type", ["statistique_officielle", "douane", "organisation_internationale", "enquete_terrain", "fournisseur", "transitaire", "presse", "interne", "autre"], L),
+      sel("source_type", ["statistique_officielle", "douane", "organisation_internationale", "enquete_terrain", "fournisseur", "transitaire", "presse", "interne", "autre"], { ...R, def: "autre" }),
       t("url", { type: "url", list: true }), t("license"), area("notes")],
   },
   market_indicators: {
@@ -152,7 +153,7 @@ export const RESOURCES: Record<string, Resource> = {
   },
   trade_flows: {
     table: "trade_flows", path: "flux", group: "market", sourced: true, dedupe: ["country_id", "hs_code_id", "partner", "flow", "year"],
-    fields: [ref("country_id", "countries", R), ref("hs_code_id", "hs_codes", L), t("partner", R), sel("flow", ["import", "export"], R), num("year", R),
+    fields: [ref("country_id", "countries", R), ref("hs_code_id", "hs_codes", L), t("partner", { ...R, def: "Chine" }), sel("flow", ["import", "export"], { ...R, def: "import" }), num("year", R),
       num("value_usd", L), num("quantity", L), t("unit"), area("notes"), ...PROV],
   },
   customs_rules: {

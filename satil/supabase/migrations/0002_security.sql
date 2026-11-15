@@ -146,6 +146,8 @@ create policy audit_select on audit_logs for select to authenticated using (
   public.has_role(org_id, array['super_admin', 'directeur_pays', 'associe_investisseur', 'comptable']));
 -- aucune politique d'écriture : seul le déclencheur (SECURITY DEFINER) écrit, personne ne modifie ni n'efface
 
+-- Supabase accorde par défaut tous les droits aux tables de public : on repart de zéro.
+revoke all on all tables in schema public from anon, authenticated;
 grant select, update on organizations, users to authenticated;
 grant select, update, delete on memberships to authenticated;
 grant select on audit_logs to authenticated;
